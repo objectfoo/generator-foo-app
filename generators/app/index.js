@@ -9,14 +9,12 @@ module.exports = class extends Generator {
 			type: String,
 			default: this.appname
 		});
-
 		this._copyFile = this._copyFile.bind(this);
 		this._copyTmpl = this._copyTmpl.bind(this);
 	}
 
 	configuring () {
 		const done = this.async();
-
 		if (this.appname !== this.options.appname) {
 			this.appname = this.options.appname;
 			const newRoot = this.destinationPath(this.appname);
@@ -24,6 +22,8 @@ module.exports = class extends Generator {
 				this.destinationRoot(newRoot);
 				done(err);
 			});
+		} else {
+			done();
 		}
 	}
 

@@ -1,10 +1,11 @@
 {
   "name": "generator-foo-app",
-  "version": "1.1.1",
+  "version": "1.2.1",
   "description": "",
   "main": "generators/app/index.js",
   "repository": {
-    "git": "https://github.com/objectfoo/generator-foo-app.git"
+    "type": "git",
+    "url": "https://github.com/objectfoo/generator-foo-app.git"
   },
   "scripts": {
     "test": "jest"

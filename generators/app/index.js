@@ -69,7 +69,10 @@ module.exports = class extends Generator {
 		this.fs.copyTpl(
 			this.templatePath(path),
 			this.destinationPath(path),
-			{ appname: this.appname }
+			{
+				appname: this.appname,
+				pkgname: this.appname.replace(/\s+/g, '-')
+			}
 		);
 	}
 };

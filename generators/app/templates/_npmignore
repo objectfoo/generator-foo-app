@@ -1,3 +1,2 @@
-.eslintrc.js
 .gitignore
 src/**/__test__/**/*.*

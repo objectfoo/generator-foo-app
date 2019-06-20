@@ -1,1 +1,1 @@
-# <%= appname %>
+# <%= pkgname %>

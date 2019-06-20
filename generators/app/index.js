@@ -1,78 +1,55 @@
-const Generator = require('yeoman-generator');
-const mkdirp = require('mkdirp');
+const Generator = require('yeoman-generator')
+const path = require('path')
+const kebabCase = require('lodash.kebabcase')
+
+const makeGeneratorName = (name) => kebabCase(name)
 
 module.exports = class extends Generator {
-	constructor (args, opts) {
-		super(args, opts);
+  // initializing () {}
 
-		this.argument('appname', {
-			type: String,
-			default: this.appname
-		});
-		this._copyFile = this._copyFile.bind(this);
-		this._copyTmpl = this._copyTmpl.bind(this);
-	}
+  async prompting () {
+    this.answers = await this.prompt([
+      {
+        type: 'input',
+        name: 'pkgname',
+        message: 'Enter package name',
+        default: makeGeneratorName(path.basename(process.cwd())),
+        filter: makeGeneratorName
+      }
+    ])
+  }
 
-	configuring () {
-		const done = this.async();
-		if (this.appname !== this.options.appname) {
-			this.appname = this.options.appname;
-			const newRoot = this.destinationPath(this.appname);
-			mkdirp(newRoot, (err) => {
-				this.destinationRoot(newRoot);
-				done(err);
-			});
-		} else {
-			done();
-		}
-	}
+  // configuring () {}
+  // default () {}
 
-	writing () {
-		// bulk copy src folder
-		this.fs.copy(
-			this.templatePath('src/**/*.*'),
-			this.destinationPath('src')
-		);
+  writing () {
+    // bulk copy src folder
+    this._copy('src/**/*.*', 'src')
 
-		// copy root files
-		[
-			'index.js',
-			'_editorconfig',
-			'_eslintrc.yml',
-			'_gitignore',
-			'_npmignore'
-		].forEach(this._copyFile);
+    // copy root level files
+    this._copy('index.js', 'index.js')
+    this._copy('_editorconfig', '.editorconfig')
+    this._copy('_gitignore', '.gitignore')
+    this._copy('_npmignore', '.npmignore')
 
-		// template
-		[
-			'package.json',
-			'readme.md'
-		].forEach(this._copyTmpl);
-	}
+    // copy root level templates
+    const data = { pkgname: this.answers.pkgname }
+    this._copyTpl('package.json', 'package.json', data)
+    this._copyTpl('readme.md', 'readme.md', data)
+  }
 
-	installing () {
-		this.npmInstall();
-	}
+  // conflicts () {}
+  // install () {}
 
-	end () {
-		this.log('Thanks for generating a foo-app.');
-	}
+  end () {
+    this.log('Thanks for generating a foo-app.')
+  }
 
-	_copyFile (path) {
-		this.fs.copy(
-			this.templatePath(path),
-			this.destinationPath(path.replace('_', '.'))
-		);
-	}
+  _copy (src, dest) {
+    return this.fs.copy(this.templatePath(src), this.destinationPath(dest))
+  }
 
-	_copyTmpl (path) {
-		this.fs.copyTpl(
-			this.templatePath(path),
-			this.destinationPath(path),
-			{
-				appname: this.appname,
-				pkgname: this.appname.replace(/\s+/g, '-')
-			}
-		);
-	}
-};
+  _copyTpl (src, dest, data) {
+    return this.fs.copyTpl(this.templatePath(src), this.destinationPath(dest), data)
+  }
+}

@@ -1,6 +1,6 @@
 {
   "name": "generator-foo-app",
-  "version": "1.2.2",
+  "version": "2.0.0",
   "description": "",
   "main": "generators/app/index.js",
   "repository": {
@@ -8,7 +8,8 @@
     "url": "https://github.com/objectfoo/generator-foo-app.git"
   },
   "scripts": {
-    "test": "jest"
+    "lint": "standard generators/app/index.js",
+    "test": "jest generators/app/**"
   },
   "files": [
     "generators"
@@ -17,12 +18,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "mkdirp": "^0.5.1",
-    "yeoman-generator": "2.0.2"
+    "lodash.kebabcase": "^4.1.1",
+    "yeoman-generator": "^4.0.1"
   },
   "devDependencies": {
-    "eslint": "4.14.0",
-    "eslint-config-objectfoo": "0.5.0",
-    "jest": "22.0.4"
+    "jest": "^24.8.0",
+    "standard": "^12.0.1",
+    "yeoman-assert": "^3.1.1",
+    "yeoman-test": "^2.0.0"
   }
 }

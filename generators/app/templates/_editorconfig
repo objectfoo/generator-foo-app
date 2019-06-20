@@ -5,7 +5,7 @@ root = true
 end_of_line = lf
 insert_final_newline = true
 trim_trailing_whitespace = true
-indent_style = tab
+indent_style = space
 indent_size = 2
 tab_width = 2
 
@@ -14,9 +14,5 @@ trim_trailing_whitespace = false
 
 [*.json]
 end_of_line = crlf
-indent_style = space
-indent_size = 2
-
-[*.yml]
 indent_style = space
 indent_size = 2
